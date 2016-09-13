@@ -1,0 +1,27 @@
+tsdb_rw:
+ image: tora/tsdb
+ container_name: prod_tsdb_rw
+ hostname: tsdb_rw
+ ports:
+ - "4242:4242"
+# volumes:
+# - ./data/rw/cache:/opt/data/cache
+ external_links:
+ - prod_hbase:hbase
+ environment:
+ - TSD_MODE=rw
+ - JVMARGS=-XX:+UseG1GC -XX:+UseMembar -Xmx2g -Xms512m
+
+tsdb_ro_1:
+ image: tora/tsdb
+ container_name: prod_tsdb_ro_1
+ hostname: tsdb_ro_1
+ ports:
+ - "4343:4242"
+# volumes:
+# - ./data/ro-1/cache:/opt/data/cache
+ external_links:
+ - prod_hbase:hbase
+ environment:
+ - TSD_MODE=ro
+ - JVMARGS=-XX:+UseG1GC -XX:+UseMembar -Xmx2g -Xms512m
