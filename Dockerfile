@@ -1,7 +1,7 @@
-FROM janeczku/alpine-kubernetes:3.3
+FROM haggaie/gnuplot:5.0.2
 
 ENV TIMEZONE Asia/Tokyo
-ENV TSD_MAINTENANCE_VER 2.2.0
+ENV TSD_MAINTENANCE_VER 2.3.0
 
 
 ###################### timezone
@@ -12,7 +12,8 @@ RUN echo "${TIMEZONE}" > /etc/timezone
 
 ###################### sys
 # testing repo
-RUN sh -c "echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories"
+#RUN sh -c "echo '@testing http://nl.alpinelinux.org/alpine/edge/testing/' >> /etc/apk/repositories"
+#RUN sh -c "echo '@community http://dl-3.alpinelinux.org/alpine/edge/community/' >> /etc/apk/repositories"
 
 RUN apk --update add \
     rsyslog \
@@ -22,8 +23,7 @@ RUN apk --update add \
     wget \
     supervisor \
     jq \
-    curl \
-    gnuplot@testing
+    curl
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/bin/
@@ -71,6 +71,7 @@ EXPOSE 4242
 VOLUME ["/opt/data/tsdb", "/opt/data/cache"]
 
 #Start supervisor
+ENTRYPOINT []
 CMD ["/opt/opentsdb/bin/startup.sh"]
 
 
